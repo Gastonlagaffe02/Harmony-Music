@@ -10,9 +10,13 @@ workflows:
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
-      - name: Build iOS (no codesign)
+      - name: Set up code signing to disabled
+        script: | 
+          find . -name "project.pbxproj" -execdir sed -i '' -e 's/CODE_SIGN_IDENTITY = "iPhone Developer"/CODE_SIGN_IDENTITY = ""/g' {} \;
+          find . -name "project.pbxproj" -execdir sed -i '' -e 's/DEVELOPMENT_TEAM = [^;]*;/DEVELOPMENT_TEAM = "";/g' {} \;
+      - name: Build iOS for simulator (no codesign needed)
         script: |
-          flutter build ios --release --no-codesign
+          flutter build ios --simulator --release
     artifacts:
-      - build/ios/iphoneos/*.app
+      - build/ios/iphonesimulator/*.app
       - flutter_drive.log
