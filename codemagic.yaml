@@ -14,9 +14,9 @@ workflows:
         script: | 
           find . -name "project.pbxproj" -execdir sed -i '' -e 's/CODE_SIGN_IDENTITY = "iPhone Developer"/CODE_SIGN_IDENTITY = ""/g' {} \;
           find . -name "project.pbxproj" -execdir sed -i '' -e 's/DEVELOPMENT_TEAM = [^;]*;/DEVELOPMENT_TEAM = "";/g' {} \;
-      - name: Build iOS for simulator (no codesign needed)
+      - name: Build iOS for simulator
         script: |
-          flutter build ios --simulator --release
+          flutter build ios --simulator --debug
     artifacts:
       - build/ios/iphonesimulator/*.app
       - flutter_drive.log
